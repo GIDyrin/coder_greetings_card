@@ -36,7 +36,7 @@ const MainApp = () => {
       response,
       date: new Date().toLocaleString()
     };
-    setHistory(prev => [...prev, newItem]);
+    setHistory(prev => [newItem, ...prev]);
   };
 
 

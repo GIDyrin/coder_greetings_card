@@ -15,13 +15,59 @@ export const GenerationForm = ({ onGenerate }: GenerationFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
-
+    setGreeting('');
     setIsLoading(true);
+    
     try {
-      const response = await mockApiCall(input);
-      setGreeting(response);
-      onGenerate(input, response);
+      const response = await fetch('http://localhost:5000/api/openrouter-stream', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: "google/gemma-3n-e4b-it:free",
+          messages: [{
+            role: "user",
+            content: t.promtDescription + input
+          }]
+        })
+      });
+
+      if (!response.body) throw new Error('No response body');
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let fullResponse = '';
+      
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        
+        const chunk = decoder.decode(value);
+        const events = chunk.split('\n\n').filter(e => e.startsWith('data:'));
+        
+        for (const event of events) {
+          try {
+            const jsonStr = event.replace('data:', '').trim();
+            if (jsonStr === '[DONE]') continue;
+            
+            const data = JSON.parse(jsonStr);
+            const content = data.choices[0]?.delta?.content || '';
+            
+            // Обновляем состояние и накапливаем полный ответ
+            setGreeting(prev => {
+              const newGreeting = prev + content;
+              fullResponse = newGreeting;
+              return newGreeting;
+            });
+          } catch (e) {
+            console.error('Parsing error:', e);
+          }
+        }
+      }
+      
+      onGenerate(input, fullResponse);
+    } catch (error) {
+      console.error('Request failed:', error);
+      setGreeting(t.errorGenerating);
     } finally {
       setIsLoading(false);
     }
@@ -42,6 +88,7 @@ export const GenerationForm = ({ onGenerate }: GenerationFormProps) => {
             className="w-full focus:ring-1 focus:ring-blue-400 p-4 rounded-lg resize-none outline-0 shadow-blue-500 shadow"
             rows={5}
             disabled={isLoading}
+            required
           />
           
           <div className='flex justify-end mb-6'>
@@ -63,21 +110,15 @@ export const GenerationForm = ({ onGenerate }: GenerationFormProps) => {
           </div>
         </form>
 
-      {greeting && (
-        <div className="border-t border-gray-100">
-          <GreetingCard text={greeting} />
-        </div>
-      )}
+        {greeting && (
+          <div className="mt-6 border-t border-gray-100 pt-4">
+            <h3 className="text-lg font-medium text-gray-700 mb-2">
+              {t.yourGreeting}
+            </h3>
+            <GreetingCard text={greeting} />
+          </div>
+        )}
       </div>
     </div>
   );
-}
-
-// Моковая функция API 
-async function mockApiCall(description: string): Promise<string> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(`Дорогой коллега!\n${description}\nС Днем Рождения!`);
-    }, 1500);
-  });
 }
