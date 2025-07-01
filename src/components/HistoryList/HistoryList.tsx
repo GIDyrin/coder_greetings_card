@@ -1,5 +1,5 @@
 import { FiClock, FiTrash2 } from 'react-icons/fi';
-import { useLanguage } from '../../context';
+import { useLanguage } from '@context';
 import { useState } from 'react';
 import { ModalHistory, ReviewRecord} from './components';
 

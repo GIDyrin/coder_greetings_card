@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FiCopy, FiCheck } from 'react-icons/fi';
-import { useLanguage } from '../../../../context';
+import { useLanguage } from '@context';
 
 
 interface GreetingCardProps {

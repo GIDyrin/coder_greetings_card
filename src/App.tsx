@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { GenerationForm, HistoryList, LanguageSwitcher } from './components';
-import { LanguageProvider, useLanguage } from "./context"
+import { GenerationForm, HistoryList, LanguageSwitcher } from '@components';
+import { LanguageProvider, useLanguage } from "@context"
 
 export default function App() {
   return (

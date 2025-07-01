@@ -1,4 +1,4 @@
-import { useLanguage } from "../../../../context";
+import { useLanguage } from "@context";
 import { RecordField } from "./components";
 
 interface ReviewRecordProps{

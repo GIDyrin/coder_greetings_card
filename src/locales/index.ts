@@ -49,6 +49,6 @@ export const translations: Record<Language, Translations> = {
     promtHistory: "Your promt",
     responseHistory: "Generated greeting",
     errorGenerating: 'Error was thrown while generating response on OpenRouter',
-    promtDescription: `You need to write a birthday greeting like SMS but respectful. Consider the recipient's age and interests, and add some humor to the greeting. Try to avoid using stickers as much as possible. Description of the recipient:\n`
+    promtDescription: `You need to write a birthday greeting. Take into account the age and interests of the recipient, and add some humor, but not too much. Don't focus on just one interest - briefly mention all of them (VERY IMPORTANT), and focus on wishing for common human needs, such as health, family happiness, etc. Write in the first person and don't include who it is from at the end. Avoid using stickers or emojis. Description of the recipient:\n`
   }
 };

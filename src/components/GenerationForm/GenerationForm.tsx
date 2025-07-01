@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FiSend, FiLoader } from 'react-icons/fi';
 import { GreetingCard } from "./components"
-import { useLanguage } from '../../context';
+import { useLanguage } from '@context';
 
 interface GenerationFormProps {
   onGenerate: (description: string, response: string) => void;

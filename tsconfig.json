@@ -1,7 +1,13 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "include": ["src"],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@context": ["./src/context"], 
+      "@locales": ["./src/locales"],
+      "@": ["."],
+      "@components": ["./src/components"]
+    },
+    "jsx": "react-jsx"
+  }
 }
