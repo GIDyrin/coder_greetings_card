@@ -1,5 +1,19 @@
+Запускать в корневой папке скрипт start.sh:
+```
+chmod +x start.sh
+sh ./start.sh
+```
+
+Для запуска проекта указать ключ в созданном env файле, а после в разных консольных окнах
+```
+npm run dev
+and 
+npm run serv
+```
+
 СТРУКТУРА
 
+```
 ./src/
 ├── App.tsx
 ├── components
@@ -39,12 +53,10 @@
 │   └── index.ts
 ├── main.tsx
 └── vite-env.d.ts
-
-14 directories, 25 files
 ./server
 ├── index.js
 ├── node_modules
 ├── package.json
 └── package-lock.json
+```
 
-2 directories, 3 files
